@@ -23,7 +23,6 @@ module Robe
       access_logger = Logger.new(access)
 
       client = nil
-
       loop do
         begin
           client = @server.accept

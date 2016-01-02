@@ -8,7 +8,7 @@ describe Robe::TypeSpace do
     it "resolves simple class" do
       space = described_class.new(Robe::Visor.new, "String", nil, true, nil)
       expect(space.target_type).to eq String
-      expect(space.instance).to be_true
+      expect(space.instance).to be(true)
     end
 
     it "resolves nested class" do
@@ -20,7 +20,7 @@ describe Robe::TypeSpace do
     it "resolves constant to its type" do
       space = described_class.new(Robe::Visor.new, "E", "Math", nil, nil)
       expect(space.target_type).to eq Float
-      expect(space.instance).to be_true
+      expect(space.instance).to be(true)
     end
   end
 

@@ -18,7 +18,7 @@ describe Robe do
   end
 
   it "has the server running" do
-    expect(Robe.server.running).to be_true
+    expect(Robe.server.running).to be(true)
   end
 
   it "has a stop method" do

@@ -379,7 +379,7 @@ describe Robe::Sash do
     end
   end
 
-  it { expect(klass.new.ping).to be_true }
+  it { expect(klass.new.ping).to be(true) }
 
   RSpec::Matchers.define :include_spec do |*specs|
     match do |candidates|

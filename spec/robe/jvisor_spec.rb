@@ -13,8 +13,8 @@ describe Robe::JVisor do
 
   it "returns only modules responding to :name and :instance_methods" do
     res = subject.each_object(Module)
-    expect(res.all? { |m| m.respond_to? :name }).to be_true
-    expect(res.all? { |m| m.respond_to? :instance_methods }).to be_true
+    expect(res.all? { |m| m.respond_to? :name }).to be(true)
+    expect(res.all? { |m| m.respond_to? :instance_methods }).to be(true)
   end
 
   it "returns descendants of a module" do

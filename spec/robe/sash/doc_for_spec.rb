@@ -62,12 +62,7 @@ describe Robe::Sash::DocFor do
 
     if RUBY_ENGINE == "ruby"
       expect(struct.source).to be_nil
-      if RUBY_VERSION < "2.0.0"
-        expect(struct.docstring).to match(/pry-doc/)
-      else
-        expect(struct.docstring).to eq("")
-        pending("https://github.com/pry/pry/issues/956")
-      end
+      expect(struct.docstring).to match(/pry-doc/)
     else
       expect(struct.docstring).to eq("")
       expect(struct.source).to start_with("def gsub(")
@@ -103,17 +98,9 @@ describe Robe::Sash::DocFor do
       let(:struct) { c.method_struct(Kernel.instance_method(:is_a?)) }
 
       it { expect(struct.visibility).to be_nil }
-
-      if RUBY_ENGINE == "ruby"
-        it { expect(struct.docstring).to be_empty }
-        [:aliases, :source].each do |prop|
-          it { expect(struct.send prop).to be_nil }
-        end
-      else
-        it { expect(struct.docstring).to include("class or superclass") }
-        it { expect(struct.aliases).to eq([:kind_of?]) }
-        it { expect(struct.source).to start_with("def kind_of?(") }
-      end
+      it { expect(struct.docstring).to match /class.+superclass/ }
+      it { expect(struct.aliases).to eq([:kind_of?]) }
+      it { expect(struct.source).to match /kind_of/ }
     end
   end
 
