@@ -30,7 +30,6 @@ module Robe
           modules += deps if deps
         end
       end
-
       scanner.scan(modules, instance, !instance)
 
       unless instance

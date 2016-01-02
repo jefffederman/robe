@@ -22,7 +22,7 @@ describe Robe do
   end
 
   it "has a stop method" do
-    expect { Robe.stop }.to stop_it
+    expect(Proc.new { Robe.stop }).to stop_it
   end
 
   it "proxies 'ping' to Sash" do
@@ -32,7 +32,7 @@ describe Robe do
 
   %w(INT TERM).each do |signal|
     it "shuts down on #{signal}" do
-      expect { Process.kill(signal, Process.pid) }.to stop_it
+      expect(Proc.new { Process.kill(signal, Process.pid) }).to stop_it
     end
   end
 

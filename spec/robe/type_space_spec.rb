@@ -88,22 +88,48 @@ describe Robe::TypeSpace do
       let(:space) { described_class.new(visor, "C", nil, nil, nil) }
 
       it "passes class and its ancestors, then metaclass ancestors" do
-        expect(scanner).to receive(:scan).with(include(c, Object), be_false, true)
-        expect(scanner).to receive(:scan)
-          .with(include(Class, Module, Kernel, n), true, be_false)
+        expect(scanner).to receive(:scan) do |arg1, arg2, arg3|
+          expect(arg1).to include(c, Object)
+          expect(arg2).to be_falsey
+          expect(arg3).to be(true)
+        end
+
+        expect(scanner).to receive(:scan) do |arg1, arg2, arg3|
+          expect(arg1).to include(Class, Module, Kernel, n)
+          expect(arg2).to be(true)
+          expect(arg3).to be(false)
+        end
+
         space.scan_with(scanner)
       end
 
       it "passes the descendants" do
-        expect(scanner).to receive(:scan).with(include(*kids), be_false, true)
-        expect(scanner).to receive(:scan).with(anything, true, be_false)
+        expect(scanner).to receive(:scan) do |arg1, arg2, arg3|
+          expect(arg1).to include(*kids)
+          expect(arg2).to be_falsey
+          expect(arg3).to be(true)
+        end
+
+        expect(scanner).to receive(:scan) do |_arg1, arg2, arg3|
+          expect(arg2).to be(true)
+          expect(arg3).to be(false)
+        end
+
         space.scan_with(scanner)
       end
 
       it "doesn't pass the included modules" do
-        expect(scanner).not_to receive(:scan).with(include(m), be_false, true)
-        expect(scanner).to receive(:scan).with(anything, be_false, true)
-        expect(scanner).to receive(:scan).with(anything, true, be_false)
+        expect(scanner).to receive(:scan) do |arg1, arg2, arg3|
+          expect(arg1).to_not include(m)
+          expect(arg2).to be_falsey
+          expect(arg3).to be(true)
+        end
+
+        expect(scanner).to receive(:scan) do |_arg1, arg2, arg3|
+          expect(arg2).to be(true)
+          expect(arg3).to be_falsey
+        end
+
         space.scan_with(scanner)
       end
     end
